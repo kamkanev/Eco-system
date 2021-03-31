@@ -1,14 +1,7 @@
-const TERRAIN_TYPES = {
-  WATER: 0,
-  SAND: 1,
-  GRASS: 2,
-  ROCKS: 3,
-  SNOW: 4
-};
-
 class Terrain {
   constructor(isInverted = false) {
 
+    //Generate random noiseScale for the terrain
     this.noiseScale = {
       x: (Math.random() < .90) ? Number((Math.random()/10).toFixed(3)) : Number((Math.random()/5).toFixed(3)),
       y: (Math.random() < .90) ? Number((Math.random()/10).toFixed(3)) : Number((Math.random()/5).toFixed(3)),
@@ -30,21 +23,13 @@ class Terrain {
     this.__generateNewTerrain();
   }
 
+  // Renders the map
   __generateNewTerrain(){
     this.map = [];
     for (let x = 0; x < canvas.width; x++) {
       this.map[x] = [];
       for (var y = 0; y < canvas.height; y++) {
         let noiseVal = PerlinNoise.noise(x * this.noiseScale.x, y * this.noiseScale.x, this.noiseScale.z);
-        // minN = Math.min(minN, noiseVal);
-        // maxTh = Math.max(maxTh, noiseVal);
-        // console.log(x, y, noiseVal);
-        // // console.log(`noise: ${noiseVal}, all: ${noiseVal*255}`);
-        // var i = (y * canvas.width + x) * 4;
-        // data[i + 0] = 0|((1 + noiseVal) / 2 * 255);//0x0f;
-        // data[i + 1] = 0|((1 + noiseVal) / 2 * 255);//0x70;
-        // data[i + 2] = 0|((1 + noiseVal) / 2 * 255);//0x07;
-        // data[i + 3] = 0|((1 + noiseVal) / 2 * 255);
         this.__initMap(x, y, noiseVal);
       }
     }
@@ -52,7 +37,7 @@ class Terrain {
 
   __initMap(x, y, noise){
 
-        this.map[x][y] = this.getRandomType(noise);
+        this.map[x][y] = new Tile(x, y, this.getRandomType(noise));
 
   }
 
@@ -86,6 +71,7 @@ class Terrain {
 
   }
 
+  // Is used to move the map coords when zoomed
   move(x = 0, y = 0){
     if(Math.round(this.map.length/this.zoom) + x < canvas.width){
       if(Math.round(this.map[0].length/this.zoom) + y < canvas.height){
@@ -96,6 +82,7 @@ class Terrain {
     }
   }
 
+  //Can change the zoom - to see more or less from the map
   changeZoom(z = 30){
     if(z >= 1 && z <= 200){
       this.zoom = z;
@@ -106,6 +93,8 @@ class Terrain {
     }
   }
 
+  //toggles build mode
+
   setBuildMode(b = true){
     this.isInBuildMode = b;
   }
@@ -114,6 +103,7 @@ class Terrain {
     this.isInBuildMode = !this.isInBuildMode;
   }
 
+  // Draws the map using all properties from above
   draw(){
 
     var size = this.zoom;
@@ -130,7 +120,7 @@ class Terrain {
 
           if(this.map[x][y] != undefined){
 
-            var c = this.map[x][y];
+            var c = this.map[x][y].type;
             // console.log(c);
             if(c == TERRAIN_TYPES.WATER){
               context.fillStyle = "#0000ff";
