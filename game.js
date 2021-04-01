@@ -1,11 +1,12 @@
 ﻿// Creating variables
 var t = new Terrain();
 
-var a = new AStar(t, t.map[0][0], t.map[5][8]);
+var a = new AStar(t, t.map[0][0], t.map[25][18], true);
 
 var cursor = new Point();
-var box = new Point(100, 100);
+var box = new Point(0, 0);
 var clicked = undefined;
+var path = undefined;
 
 function update() {
     cursor.x = cursor.x+(mouseX-cursor.x)-5;
@@ -13,10 +14,10 @@ function update() {
 
     if(clicked != undefined){
 
-      var dx = clicked.x - box.x;
-      var dy = clicked.y - box.y;
+      var dx = clicked.x*t.zoom - box.x;
+      var dy = clicked.y*t.zoom - box.y;
       var dist = Math.sqrt(dx*dx, dy*dy);
-      var speed = 2;
+      var speed = 10;
       var angle = Math.atan2(dy, dx);
 
       box.x += speed * Math.cos(angle);
@@ -24,25 +25,38 @@ function update() {
 
       // console.log(dist);
 
-      if(Math.round(dist) <= 1){
+      if(Math.round(box.x/t.zoom) == clicked.x && Math.round(box.y/t.zoom) == clicked.y){
         clicked = undefined;
       }
 
     }
 
     a.update();
+
+    if(a.isDone && !a.noSolution && path == undefined){
+      path = a.path.slice(0);
+
+    }
+
+    if(clicked == undefined && path != undefined && path.length > 0){
+      clicked = path.pop();
+      console.log(clicked);
+      console.log(box);
+      console.log(Math.round(box.x/t.zoom), Math.round(box.y/t.zoom));
+    }
+
 }
 
 function draw() {
     // This is how you draw a rectangle
     // t.draw();
-    a.draw();
+    a.debugDraw(true);
 
     context.fillStyle = "pink";
     context.fillRect(cursor.x, cursor.y, 10, 10);
 
     context.fillStyle = "red";
-    context.fillRect(box.x, box.y, 30, 30);
+    context.fillRect(box.x, box.y, t.zoom -1, t.zoom-1);
 
 
 };

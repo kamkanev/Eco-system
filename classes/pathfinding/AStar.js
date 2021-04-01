@@ -1,17 +1,27 @@
 class AStar {
-  constructor(terrain, start, end, includeDiagonals = true) {
+  constructor(terrain, start, end, includeDiagonals = false) {
 
     this.zoom = terrain.zoom;
 
-    this.grid = this.__generateGrid(terrain.map);
+    this.grid = this.__generateGrid(terrain.map, includeDiagonals);
 
-    this.withDiagonals = includeDiagonals;
-
-    this.init(start, end);
+    this.__init(start, end, includeDiagonals);
 
   }
 
-  init(startPoint, endPoint){
+  restart(startPoint, endPoint, includeDiagonals = false, zoom = 30){
+
+    this.zoom = zoom;
+
+    this.grid = this.__regenerateGrid(includeDiagonals);
+
+    this.__init(startPoint, endPoint, includeDiagonals);
+
+  }
+
+  __init(startPoint, endPoint, includeDiagonals = false){
+
+    this.withDiagonals = includeDiagonals;
 
     this.start = this.grid[startPoint.x][startPoint.y];
     this.end = this.grid[endPoint.x][endPoint.y];
@@ -30,7 +40,28 @@ class AStar {
 
   }
 
-  __generateGrid(map){
+  __regenerateGrid(withDiagonals = false){
+
+    var grid = [];
+
+    for (var i = 0; i < this.grid.length; i++) {
+      grid[i] = [];
+      for (var j = 0; j < this.grid[i].length; j++) {
+        grid[i][j] = new Spot(i, j);
+      }
+    }
+
+    for (var i = 0; i < this.grid.length; i++) {
+      for (var j = 0; j < this.grid[i].length; j++) {
+        grid[i][j].addNeighbors(grid, withDiagonals);
+      }
+    }
+
+    return grid;
+
+  }
+
+  __generateGrid(map, includeDiagonals = false){
 
     var grid = [];
 
@@ -43,7 +74,7 @@ class AStar {
 
     for (var i = 0; i < map.length; i++) {
       for (var j = 0; j < map[i].length; j++) {
-        grid[i][j].addNeighbors(grid);
+        grid[i][j].addNeighbors(grid, includeDiagonals);
       }
     }
 
@@ -54,9 +85,9 @@ class AStar {
   __heuristic(a, b){
 
     var hip = distance(a, b);
-    // var manhatanDis = Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+    var manhatanDis = Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 
-    return hip;
+    return this.withDiagonals == true ? hip : manhatanDis;
   }
 
   update(){
@@ -139,29 +170,35 @@ class AStar {
 
   }
 
-  draw(){
+  draw(showG = false){
+
+    for (var i = 0; i < this.path.length; i++) {
+      this.path[i].show("#00bbff", this.zoom);
+    }
+
+  }
+
+  debugDraw(showG = false){
 
     for (var i = 0; i < Math.round(this.grid.length/this.zoom); i++) {
       for (var j = 0; j < Math.round(this.grid[i].length/this.zoom); j++) {
         if(!this.grid[i][j].isWall){
-          this.grid[i][j].show("#d6d6d6", this.zoom);
+          this.grid[i][j].show("#d6d6d6", this.zoom, showG);
         }else{
-          this.grid[i][j].show("#fff000", this.zoom);
+          this.grid[i][j].show("#fff000", this.zoom, showG);
         }
       }
     }
 
     for (var i = 0; i < this.openSet.length; i++) {
-      this.openSet[i].show("#00ff00", this.zoom);
+      this.openSet[i].show("#00ff00", this.zoom, showG);
     }
 
     for (var i = 0; i < this.closeSet.length; i++) {
-      this.closeSet[i].show("#ff0000", this.zoom);
+      this.closeSet[i].show("#ff0000", this.zoom, showG);
     }
 
-    for (var i = 0; i < this.path.length; i++) {
-      this.path[i].show("#00bbff", this.zoom);
-    }
+    this.draw(showG);
 
   }
 
