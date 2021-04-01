@@ -10,10 +10,31 @@ var arr = [];
 var t = new Terrain();
 
 var cursor = new Point();
+var box = new Point(100, 100);
+var clicked = undefined;
 
 function update() {
-    cursor.x = cursor.x+(mouseX-cursor.x);
-    cursor.y = cursor.y+(mouseY-cursor.y);
+    cursor.x = cursor.x+(mouseX-cursor.x)-5;
+    cursor.y = cursor.y+(mouseY-cursor.y)-5;
+
+    if(clicked != undefined){
+
+      var dx = clicked.x - box.x;
+      var dy = clicked.y - box.y;
+      var dist = Math.sqrt(dx*dx, dy*dy);
+      var speed = 2;
+      var angle = Math.atan2(dy, dx);
+
+      box.x += speed * Math.cos(angle);
+      box.y += speed * Math.sin(angle);
+
+      // console.log(dist);
+
+      if(Math.round(dist) <= 1){
+        clicked = undefined;
+      }
+
+    }
 }
 
 function draw() {
@@ -21,7 +42,10 @@ function draw() {
     t.draw();
 
     context.fillStyle = "pink";
-    context.fillRect(cursor.x, cursor.y, 30, 30);
+    context.fillRect(cursor.x, cursor.y, 10, 10);
+
+    context.fillStyle = "red";
+    context.fillRect(box.x, box.y, 30, 30);
 
 
 };
@@ -68,4 +92,6 @@ function keydown(key) {
 function mouseup() {
     // Show coordinates of mouse on click
     console.log("Mouse clicked at", mouseX, mouseY);
+
+    clicked = new Point(mouseX, mouseY);
 };
