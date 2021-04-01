@@ -1,13 +1,7 @@
 ﻿// Creating variables
-
-var a = new Rabbit(7,8);
-
-console.log(a);
-
-let noiseScale=0.02;
-var arr = [];
-
 var t = new Terrain();
+
+var a = new AStar(t, t.map[0][0], t.map[5][8]);
 
 var cursor = new Point();
 var box = new Point(100, 100);
@@ -35,11 +29,14 @@ function update() {
       }
 
     }
+
+    a.update();
 }
 
 function draw() {
     // This is how you draw a rectangle
-    t.draw();
+    // t.draw();
+    a.draw();
 
     context.fillStyle = "pink";
     context.fillRect(cursor.x, cursor.y, 10, 10);

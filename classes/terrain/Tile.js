@@ -2,6 +2,7 @@ class Tile extends Point {
   constructor(x, y, type = 0) {
     super(x, y);
     this.type = type;
+    this.isOccupie = false;
   }
 }
 
@@ -28,5 +29,5 @@ Tile.types = TERRAIN_TYPES;
 
   * snow -> rocks
   * sand -> grass
-  
+
 */
