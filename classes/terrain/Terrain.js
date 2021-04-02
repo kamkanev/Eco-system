@@ -37,7 +37,7 @@ class Terrain {
 
   __initMap(x, y, noise){
 
-        this.map[x][y] = new Tile(x, y, this.getRandomType(noise));
+        this.map[x][y] = new Tile(x, y, this.getRandomType(noise), this.zoom);
 
   }
 

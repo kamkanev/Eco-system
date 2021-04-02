@@ -7,6 +7,8 @@ var maze = maze(20, 20);
 
 var mazePrint = display(maze).split("\n");
 
+var pl = new Plant(t.map[13][8]);
+
 var cursor = new Point();
 var box = new Point(0, 0);
 var clicked = undefined;
@@ -50,9 +52,11 @@ function update() {
 
 function draw() {
     // This is how you draw a rectangle
-    // t.draw();
+    t.draw();
     // a.draw();
     // a.debugDraw(true);
+
+    pl.draw();
 
     context.fillStyle = "pink";
     context.fillRect(cursor.x, cursor.y, 10, 10);
@@ -60,17 +64,17 @@ function draw() {
     context.fillStyle = "red";
     context.fillRect(box.x, box.y, t.zoom -1, t.zoom-1);
 
-    for (var i = 0; i < mazePrint.length; i++) {
-      for (var j = 0; j < mazePrint[i].length; j++) {
-        if(mazePrint[i][j] != " "){
-          context.fillStyle = "black";
-        }else{
-          context.fillStyle = "#d8d8d8";
-        }
-        context.fillRect(i*20, j*20, 19, 19);
-      }
-
-    }
+    // for (var i = 0; i < mazePrint.length; i++) {
+    //   for (var j = 0; j < mazePrint[i].length; j++) {
+    //     if(mazePrint[i][j] != " "){
+    //       context.fillStyle = "black";
+    //     }else{
+    //       context.fillStyle = "#d8d8d8";
+    //     }
+    //     context.fillRect(i*20, j*20, 19, 19);
+    //   }
+    //
+    // }
 
 };
 

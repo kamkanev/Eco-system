@@ -1,8 +1,9 @@
 class Tile extends Point {
-  constructor(x, y, type = 0) {
+  constructor(x, y, type = 0, size = 30) {
     super(x, y);
     this.type = type;
     this.isOccupie = false;
+    this.size = size;
   }
 }
 
