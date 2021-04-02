@@ -3,6 +3,10 @@ var t = new Terrain();
 
 var a = new AStar(t, t.map[0][0], t.map[25][18], true);
 
+var maze = maze(20, 20);
+
+var mazePrint = display(maze).split("\n");
+
 var cursor = new Point();
 var box = new Point(0, 0);
 var clicked = undefined;
@@ -31,7 +35,7 @@ function update() {
 
     }
 
-    a.update();
+    // a.update();
 
     if(a.isDone && !a.noSolution && path == undefined){
       path = a.path.slice(0);
@@ -40,9 +44,6 @@ function update() {
 
     if(clicked == undefined && path != undefined && path.length > 0){
       clicked = path.pop();
-      console.log(clicked);
-      console.log(box);
-      console.log(Math.round(box.x/t.zoom), Math.round(box.y/t.zoom));
     }
 
 }
@@ -50,7 +51,8 @@ function update() {
 function draw() {
     // This is how you draw a rectangle
     // t.draw();
-    a.debugDraw(true);
+    // a.draw();
+    // a.debugDraw(true);
 
     context.fillStyle = "pink";
     context.fillRect(cursor.x, cursor.y, 10, 10);
@@ -58,6 +60,17 @@ function draw() {
     context.fillStyle = "red";
     context.fillRect(box.x, box.y, t.zoom -1, t.zoom-1);
 
+    for (var i = 0; i < mazePrint.length; i++) {
+      for (var j = 0; j < mazePrint[i].length; j++) {
+        if(mazePrint[i][j] != " "){
+          context.fillStyle = "black";
+        }else{
+          context.fillStyle = "#d8d8d8";
+        }
+        context.fillRect(i*20, j*20, 19, 19);
+      }
+
+    }
 
 };
 
@@ -104,5 +117,5 @@ function mouseup() {
     // Show coordinates of mouse on click
     console.log("Mouse clicked at", mouseX, mouseY);
 
-    clicked = new Point(mouseX, mouseY);
+    //clicked = new Point(mouseX, mouseY);
 };

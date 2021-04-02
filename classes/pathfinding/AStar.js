@@ -173,7 +173,7 @@ class AStar {
   draw(showG = false){
 
     for (var i = 0; i < this.path.length; i++) {
-      this.path[i].show("#00bbff", this.zoom);
+      this.path[i].show("#00bbff", this.zoom, showG);
     }
 
   }
