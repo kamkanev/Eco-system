@@ -1,18 +1,18 @@
 class Spot extends Point{
-  constructor(x, y) {
+  constructor(x, y, isWall = false) {
 
     super(x, y);
     this.f = 0; // over all cost g + h
     this.g = 0; // cost to this spot
     this.h = 0; // heuristics
-    this.isWall = false;
+    this.isWall = isWall;
 
     this.previous = undefined;
     this.neighbors = [];
 
-    if(Math.random() < 0.4){
-      this.isWall = true;
-    }
+    // if(Math.random() < 0.4){
+      // this.isWall = true;
+    // }
 
   }
 

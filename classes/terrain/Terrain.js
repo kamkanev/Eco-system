@@ -1,5 +1,5 @@
 class Terrain {
-  constructor(isInverted = false) {
+  constructor(isRandom = true, isInverted = false) {
 
     //Generate random noiseScale for the terrain
     this.noiseScale = {
@@ -14,7 +14,9 @@ class Terrain {
     this.isInverted = isInverted;
     this.deltaPoint = new Point();
 
-    this.init();
+    if(isRandom){
+      this.init();
+    }
 
   }
 

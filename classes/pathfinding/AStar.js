@@ -47,7 +47,7 @@ class AStar {
     for (var i = 0; i < this.grid.length; i++) {
       grid[i] = [];
       for (var j = 0; j < this.grid[i].length; j++) {
-        grid[i][j] = new Spot(i, j);
+        grid[i][j] = new Spot(i, j, this.grid[i][j].isWall);
       }
     }
 
@@ -68,7 +68,7 @@ class AStar {
     for (var i = 0; i < map.length; i++) {
       grid[i] = [];
       for (var j = 0; j < map[i].length; j++) {
-        grid[i][j] = new Spot(i, j);
+        grid[i][j] = new Spot(i, j, map[i][j].isOccupie);
       }
     }
 

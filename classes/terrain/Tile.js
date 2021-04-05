@@ -4,6 +4,10 @@ class Tile extends Point {
     this.type = type;
     this.isOccupie = false;
     this.size = size;
+
+    // if(Math.random() < 0.4){
+    //   this.isOccupie = true;
+    // }
   }
 }
 

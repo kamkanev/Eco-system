@@ -3,10 +3,6 @@ var t = new Terrain();
 
 var a = new AStar(t, t.map[0][0], t.map[25][18], true);
 
-var maze = maze(20, 20);
-
-var mazePrint = display(maze).split("\n");
-
 var pl = new Plant(t.map[13][8]);
 
 var cursor = new Point();
@@ -52,9 +48,9 @@ function update() {
 
 function draw() {
     // This is how you draw a rectangle
-    t.draw();
+    // t.draw();
     // a.draw();
-    // a.debugDraw(true);
+    a.debugDraw(true);
 
     pl.draw();
 
@@ -63,18 +59,6 @@ function draw() {
 
     context.fillStyle = "red";
     context.fillRect(box.x, box.y, t.zoom -1, t.zoom-1);
-
-    // for (var i = 0; i < mazePrint.length; i++) {
-    //   for (var j = 0; j < mazePrint[i].length; j++) {
-    //     if(mazePrint[i][j] != " "){
-    //       context.fillStyle = "black";
-    //     }else{
-    //       context.fillStyle = "#d8d8d8";
-    //     }
-    //     context.fillRect(i*20, j*20, 19, 19);
-    //   }
-    //
-    // }
 
 };
 
