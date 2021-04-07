@@ -1,5 +1,36 @@
 class Terrain {
-  constructor(isRandom = true, isInverted = false) {
+  constructor(isRandom = false, isInverted = false) {
+
+    this.map = [];
+    this.zoom = 30;
+    this.isInBuildMode = false;
+    this.isInverted = isInverted;
+    this.isRandom = isRandom;
+    this.deltaPoint = new Point();
+
+    if(!isRandom){
+      this.__init();
+    }else{
+      this.__createEmptyMap();
+    }
+
+  }
+
+  init(isRandom = false, type = 0){
+    if(!isRandom){
+      this.__init();
+    }else{
+      this.__createEmptyMap(type);
+    }
+  }
+
+  __createEmptyMap(type = 0){
+
+    this.__generateNewEmptyTerrain(type);
+
+  }
+
+  __init(){
 
     //Generate random noiseScale for the terrain
     this.noiseScale = {
@@ -7,20 +38,6 @@ class Terrain {
       y: (Math.random() < .90) ? Number((Math.random()/10).toFixed(3)) : Number((Math.random()/5).toFixed(3)),
       z: Number(((Math.random()*10+1)/2).toFixed(2))
     }
-
-    this.map = [];
-    this.zoom = 30;
-    this.isInBuildMode = false;
-    this.isInverted = isInverted;
-    this.deltaPoint = new Point();
-
-    if(isRandom){
-      this.init();
-    }
-
-  }
-
-  init(){
 
     this.__generateNewTerrain();
   }
@@ -37,9 +54,20 @@ class Terrain {
     }
   }
 
+  __generateNewEmptyTerrain(type = 0){
+    this.map = [];
+    for (let x = 0; x < canvas.width; x++) {
+      this.map[x] = [];
+      for (var y = 0; y < canvas.height; y++) {
+        this.__initMap(x, y, type);
+      }
+    }
+  }
+
   __initMap(x, y, noise){
 
-        this.map[x][y] = new Tile(x, y, this.getRandomType(noise), this.zoom);
+        var type = this.getRandomType(noise);
+        this.map[x][y] = new Tile(x, y, type, this.zoom);
 
   }
 

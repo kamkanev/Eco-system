@@ -12,3 +12,15 @@ function distance(a, b) {
 
   return Math.sqrt(side1*side1 + side2*side2);
 }
+
+function translatePointToScreen(point, size){
+
+  return new Point( point.x*size, point.y*size );
+
+}
+
+function translateScreenPointToArray(point, size){
+
+  return new Point( Math.round(point.x/size), Math.round(point.y/size) );
+
+}
