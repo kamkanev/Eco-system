@@ -1,10 +1,12 @@
 class Rabbit {
   constructor(x = 0, y = 0, terrain, size = 30) {
     this.box = new Point(x, y);
-    this.screenBox = translatePointToScreen(this.box, terrain.zoom);
+    this.terrain = terrain;
+    this.screenBox = translatePointToScreen(this.box, terrain.zoom, terrain.deltaPoint);
     this.a = undefined;//new AStar(t, t.map[0][0], t.map[25][18], true);
     this.goal = undefined;
     this.path = undefined;
+    this.r = 2;
 
     this.terrain = terrain;
   }
@@ -58,21 +60,39 @@ class Rabbit {
         this.to = undefined;
         this.path = undefined;
         this.box = this.goal;
-        this.screenBox = translatePointToScreen(this.box, this.terrain.zoom);
+        this.screenBox = translatePointToScreen(this.box, this.terrain.zoom, this.terrain.deltaPoint);
         this.goal = undefined;
         return;
       }
+    }else{
+
+
+      this.screenBox = translatePointToScreen(this.box, this.terrain.zoom, this.terrain.deltaPoint);
     }
 
   }
 
   draw(){
 
-    if(this.a != undefined){
-      this.a.debugDraw(true);
-    }
+    // if(this.a != undefined){
+    //   this.a.debugDraw(true);
+    // }
 
+    // for(var x = this.box.x - this.r; x <= this.box.x + this.r; x++){
+    //   for(var y = this.box.y - this.r; y<= this.box.y + this.r; y++){
+    //
+    //
+    //     context.globalAlpha = 0.5;
+    //     context.fillStyle = "#fff000";
+    //     var p = translatePointToScreen(new Point(x, y), this.terrain.zoom);
+    //     context.fillRect(p.x, p.y, this.terrain.zoom -1, this.terrain.zoom-1);
+    //
+    //   }
+    // }
+    context.globalAlpha = 1;
     context.fillStyle = "red";
     context.fillRect(this.screenBox.x, this.screenBox.y, this.terrain.zoom -1, this.terrain.zoom-1);
+
+
   }
 }

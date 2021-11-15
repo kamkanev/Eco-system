@@ -1,6 +1,6 @@
 ﻿// Creating variables
-var t = new Terrain(true);
-// var pl = new Plant(t.map[13][8]);
+var t = new Terrain(false);
+var pl = new Plant(t.map[13][8], t);
 
 var r = new Rabbit(7, 10, t);
 
@@ -11,13 +11,14 @@ function update() {
     cursor.y = cursor.y+(mouseY-cursor.y)-5;
 
     r.update();
+    pl.update();
 
 }
 
 function draw() {
     // This is how you draw a rectangle
-    // t.draw();
-    // pl.draw();
+     t.draw();
+    pl.draw();
 
     r.draw();
 
@@ -40,11 +41,15 @@ function keydown(key) {
     console.log("PressedDown", key);
 
     if(isKeyPressed[90]){//z
-      t.changeZoom(t.zoom + 5);
+      if(t.zoom <= 40){
+        t.changeZoom(t.zoom + 5);
+      }
     }
 
     if(isKeyPressed[88]){//x
-      t.changeZoom(t.zoom - 5);
+      if(t.zoom >= 15){
+        t.changeZoom(t.zoom - 5);
+      }
     }
 
 

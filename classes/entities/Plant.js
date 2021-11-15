@@ -1,6 +1,15 @@
 class Plant{
-  constructor(tile) {
+  constructor(tile, terrain) {
     this.location = tile;
+    this.terrain = terrain;
+    this.screenBox = translatePointToScreen(this.location, terrain.zoom, terrain.deltaPoint);
+  }
+
+  update(){
+
+
+    this.screenBox = translatePointToScreen(this.location, this.terrain.zoom, this.terrain.deltaPoint);
+
   }
 
   draw(){
@@ -8,7 +17,7 @@ class Plant{
     var tile = this.location;
 
     context.fillStyle = "green";
-    context.fillRect(tile.x * tile.size + tile.size/4, tile.y * tile.size + tile.size/4, tile.size/2, tile.size/2);
+    context.fillRect(this.screenBox.x + 5, this.screenBox.y + 5, this.terrain.zoom/2 - 1, this.terrain.zoom/2 - 1);
 
   }
 }

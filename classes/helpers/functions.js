@@ -13,9 +13,9 @@ function distance(a, b) {
   return Math.sqrt(side1*side1 + side2*side2);
 }
 
-function translatePointToScreen(point, size){
+function translatePointToScreen(point, size, deltaPoint){
 
-  return new Point( point.x*size, point.y*size );
+  return new Point( point.x*size - deltaPoint.x*size, point.y*size - deltaPoint.y*size);
 
 }
 
