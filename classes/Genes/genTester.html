@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genes</title>
+</head>
+<body>
+    <div style="float: left; border-color: black; border-style: solid; border-width: 3px;">
+            <label>Name:</label><input class="nGene" type="text" placeholder="name" /> <br>
+            <label>Value</label><input class="vGene" type="number" placeholder="value"/><br>
+            <label>Rate:</label><input class="cGene" type="number" /> <label>Rnd</label><input class="isRnd" type="checkbox" /><br>
+            <label>Is dominant:</label><input class="dGene" type="checkbox" /> 
+            <hr>
+            <button onclick="createGene(0)">Create</button>
+    </div>
+    <div style="float: center; border-color: black; border-style: solid; border-width: 3px;">
+            <label>Name:</label><input class="nGene" type="text" placeholder="name" /><br>
+            <label>Value</label><input class="vGene" type="number" placeholder="value" /><br>
+            <label>Rate:</label><input class="cGene" type="number" /> <label>Rnd</label><input class="isRnd" type="checkbox" /><br>
+            <label>Is dominant:</label><input class="dGene" type="checkbox" />
+            <hr>
+            <button onclick="createGene(1)">Create</button>
+    </div>
+    <hr>
+    <button onclick="genes[0].mergeWith(genes[1]).print()">Merge</button>
+
+    <script src="./genes.js"></script>
+    <script>
+        var genes = new Array(2)
+        function createGene(inx){
+            var name = document.getElementsByClassName("nGene")[inx].value.length <= 0 ? "Unnamed" : document.getElementsByClassName("nGene")[inx].value;
+            var value = document.getElementsByClassName("vGene")[inx].value.length <= 0 ? 1.0 : parseFloat(document.getElementsByClassName("vGene")[inx].value)
+            var dominance = document.getElementsByClassName("dGene")[inx].checked
+            var changeRate = parseFloat(document.getElementsByClassName("cGene")[inx].value.length <= 0 ? 0.5 : document.getElementsByClassName("cGene")[inx].value)
+                genes[inx] = new Gene(name, value, dominance);
+                
+                if (!document.getElementsByClassName("isRnd")[inx].checked){
+                    genes[inx].changeRate = changeRate
+                }
+
+                genes[inx].print()
+        }
+    </script>
+</body>
+</html>
